@@ -49,3 +49,40 @@ language: C++ Cmake
 5. [tenitsu](https://github.com/skyzh/tenitsu)
 
 A robot automatically finds and fetches tennis balls on the ground. Use OpenCV on Android for computer vision. Final project for SJTU ME116 "IntroME".
+
+6. [IFRoS](https://github.com/IFRoS-ELTE/ball_picking_project)
+**big robot**
+
+language: Shell
+
+7. [sameday85](https://github.com/sameday85/tennis)
+
+language: C++
+
+Hardware (total cost around $480)
+
+Raspberry Pi 3 B+
+
+Pi Camera with long cable
+
+A robot car with structure frame
+
+A heavy duty DC motor(12V)
+
+Three motor controllers (L298N)
+
+Two ultra sound sensors
+
+Three leds (R,G and B)
+
+An active buzzer
+
+Two buttons
+
+Wires
+
+Breadboard
+
+Resistors
+
+Misc (Power Banks etc)
