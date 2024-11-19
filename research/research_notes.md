@@ -17,6 +17,13 @@ Sensors: Camera, gyroscope, proximity, rotary encoders.
 
 Software development in C: 12.7%, Python 3: 87.3%
 
+this is a overhead camera not a pov.
+
+questions
+
+* what cameras?
+* how many cameras?
+
 2. [fetch-it](https://github.com/nalindas9/fetch-it)
 
 Operating System - Ubuntu 18.04
