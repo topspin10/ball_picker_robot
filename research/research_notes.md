@@ -48,6 +48,8 @@ Version Control - Git & Github
 
 We will design and build a small device that will consist of a container for storage and a rotor at the front that will spin balls into the container when detected. The device will maneuver a defined range (borders marked by mini walls) and automatically detect tennis balls using a Raspberry Pixy camera, IR sensor, and two wheel drive, and by running OpenCV libraries on a Raspberry Pi. Once storage has reached maximum capacity, it will return to a defined destination where someone can retrieve the balls. A Nucleo controller and motors will be used to enable movement.
 
+uses raspberry pi
+
 4. [tenezbot](https://github.com/Pruthvi-Sanghavi/TenezBot)
 **software only**
 
