@@ -15,7 +15,7 @@ Wireless data transmission to the robot via communication protocols Zigbee and B
 
 Sensors: Camera, gyroscope, proximity, rotary encoders.
 
-Software development in C, Python 3
+Software development in C: 12.7%, Python 3: 87.3%
 
 2. [fetch-it](https://github.com/nalindas9/fetch-it)
 
