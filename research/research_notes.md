@@ -17,8 +17,6 @@ Sensors: Camera, gyroscope, proximity, rotary encoders.
 
 Software development in C, Python 3
 
-[image of bka](https://user-images.githubusercontent.com/63189206/78499133-37c4fd80-774f-11ea-8d09-500c4e03415a.jpg)
-
 2. [fetch-it](https://github.com/nalindas9/fetch-it)
 
 Operating System - Ubuntu 18.04
@@ -69,7 +67,7 @@ Pi Camera with long cable
 
 A robot car with structure frame
 
-A heavy duty DC motor(12V)
+A heavy duty DC motor()
 
 Three motor controllers (L298N)
 
@@ -85,6 +83,6 @@ Wires
 
 Breadboard
 
-Resistors
+Resistorsp c z
 
 Misc (Power Banks etc)
