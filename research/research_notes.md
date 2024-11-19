@@ -44,6 +44,8 @@ We will design and build a small device that will consist of a container for sto
 4. [tenezbot](https://github.com/Pruthvi-Sanghavi/TenezBot)
 **software only**
 
+We propose to design "TenezBot" a tennis ball collecting robot, by incorporating high-quality software engineering practices for Acme Robotics. "TenezBot" package is a complete software package which will be integrated in their new line of products. Tennis is played widely throughout the world. Mastering this game requires a good amount of time. But with that comes the demanding task of collecting hundreds of tennis balls scattered across the court, which becomes really frustrating after a tiring practice session. Thus we are aiming to develop “TenezBot” a robot which can detect ball, its position in the environment, reach out to the ball and collect it in a sac using a custom made collector attached with the TurtleBot base platform. The robot would use vision camera for vision and depth measurement. Path planning algorithms are used to reach out to the balls so that the task performance is optimum.
+
 language: C++: 95.8%, Cmake: 4.2%
 
 5. [tenitsu](https://github.com/skyzh/tenitsu)
