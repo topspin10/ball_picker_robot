@@ -55,6 +55,8 @@ A robot automatically finds and fetches tennis balls on the ground. Use OpenCV o
 6. [IFRoS](https://github.com/IFRoS-ELTE/ball_picking_project)
 **big robot**
 
+To create inputs for GMapping (2D SLAM), the robot's odometry gets calculated using Direct Lidar Inertial Odometry, which uses LiDAR and IMU data. There is unwanted drift in z-direction of the odometry because of unknown reasons, so it needs to be set to a static value to be usable. Since GMapping is a 2D SLAM algorithm, the LiDAR point cloud gets downsampled to a 2D laser scan. Based on the created 2D map, the mobile base can either autonomously explore the area using frontier exploration or approach a 3D world coordinate given to it by the ball detection module. For controlling the robot, move_base receives navGoals and sends twist messages to the scout_base, which is responsible for communicating with the physical robot through CAN.
+
 language: Shell
 
 7. [sameday85](https://github.com/sameday85/tennis)
