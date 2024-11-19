@@ -44,7 +44,7 @@ We will design and build a small device that will consist of a container for sto
 4. [tenezbot](https://github.com/Pruthvi-Sanghavi/TenezBot)
 **software only**
 
-language: C++ Cmake
+language: C++: 95.8%, Cmake: 4.2%
 
 5. [tenitsu](https://github.com/skyzh/tenitsu)
 
