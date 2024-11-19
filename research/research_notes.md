@@ -9,7 +9,7 @@ Detection of tennis balls through Computer Vision and Machine Learning (Haar Cas
 
 Traversal of the robot towards the co-ordinate of ball by closed loop locomotion through gyroscope & rotary encoders.
 
-The microcontroller used is ARM Cortex M4 (STM32 Nucleo-64 F446RE).
+The microcontroller used is ARM Cortex M4 (STM32 Nucleo-64 F446RE): $15
 
 Wireless data transmission to the robot via communication protocols Zigbee and Bluetooth v2.0.
 
