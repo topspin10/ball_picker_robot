@@ -25,6 +25,7 @@ questions
 * how many cameras?
 
 2. [fetch-it](https://github.com/nalindas9/fetch-it)
+**SIMULATOR**
 
 Operating System - Ubuntu 18.04
 
