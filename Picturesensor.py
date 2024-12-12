@@ -1,5 +1,7 @@
 import cv2
-image = cv2.imread("C:\\Users\\maker\\Documents\\GitHub\\ball_picker_robot\\pictures\\IMG_6443.png")
+image = cv2.imread("C:\\Users\\unfin\\OneDrive\\Documents\GitHub\\ball_picker_robot\\pictures\\IMG_6443.png")
+# C:\Users\unfin\OneDrive\Documents\GitHub\ball_picker_robot\pictures\IMG_6442.png"
+#"C:\\Users\\maker\\Documents\\GitHub\\ball_picker_robot\\pictures\\IMG_6442.png"
 #image = cv2.imread("C:\\Users\\maker\\Pictures\\IMG_6442.png")
 print(type(image))
 low_H_name = 'Low H'
@@ -10,6 +12,7 @@ high_S_name = 'High S'
 high_V_name = 'High V'
 Window = 'window'
 Mask = 'mask'
+Erode = 'erode'
 
 def on_low_H_thresh_trackbar(val):
     global low_H
@@ -50,6 +53,7 @@ def on_high_V_thresh_trackbar(val):
 
 cv2.namedWindow(Window)
 cv2.namedWindow(Mask)
+cv2.namedWindow(Erode)
 height, width = image.shape[:2]
 image = cv2.resize(image, (int(0.1*width), int(0.1*height)), interpolation=cv2.INTER_AREA)
 low_H = 55
@@ -58,6 +62,7 @@ low_V = 0
 high_H = 109
 high_S = 255
 high_V = 170
+element = 
 
 cv2.createTrackbar(low_H_name, Mask, low_H, 188, on_low_H_thresh_trackbar)
 cv2.createTrackbar(high_H_name, Mask, high_H, 188, on_high_H_thresh_trackbar)
@@ -70,6 +75,8 @@ cv2.imshow(Window, image)
 while True:
     frame_threshold = cv2.inRange(image, (low_H, low_S, low_V), (high_H, high_S, high_V))
     cv2.imshow(Mask, frame_threshold)
+    erode = cv2.erode(image, )
+    cv2.imshow(Erode, erode)
     key = cv2.waitKey(30)
     if key == ord('q') or key == 27:
         break
