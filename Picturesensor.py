@@ -13,6 +13,7 @@ high_V_name = 'High V'
 Window = 'window'
 Mask = 'mask'
 Erode = 'erode'
+findcontour = 'findcontour'
 
 def on_low_H_thresh_trackbar(val):
     global low_H
@@ -51,6 +52,7 @@ def on_high_V_thresh_trackbar(val):
     high_V = max(high_V, low_V+1)
     cv2.setTrackbarPos(high_V_name, Mask, high_V)
 
+cv2.namedWindow(findcontour)
 cv2.namedWindow(Window)
 cv2.namedWindow(Mask)
 cv2.namedWindow(Erode)
@@ -84,7 +86,7 @@ cv2.createTrackbar(low_V_name, Mask, low_V, 255, on_low_V_thresh_trackbar)
 cv2.createTrackbar(high_V_name, Mask, high_V, 255, on_high_V_thresh_trackbar)
 # cv2.createTrackbar(title_trackbar_element_shape, Erode, 0, max_elem, erosion)
 
-cv2.imshow(Window, image)
+
 while True:
     frame_threshold = cv2.inRange(image, (low_H, low_S, low_V), (high_H, high_S, high_V))
     cv2.imshow(Mask, frame_threshold)
@@ -111,7 +113,13 @@ while True:
 
     eroded = cv2.erode(frame_threshold, kernel)
     cv2.imshow(Erode, eroded)
-    key = cv2.waitKey(30)
+    dingusimage, contours = cv2.findContours(frame_threshold, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    print(contours)
+    cv2.drawContours(image, contours, -1, (0, 255, 0), 3)
+    cv2.imshow(Window, image)
+
+    # cv2.imshow(findcontour, contour)
+    key = cv2.waitKey(0)
     if key == ord('q') or key == 27:
         break
 # cv2.waitKey(0)
