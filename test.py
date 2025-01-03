@@ -1,12 +1,12 @@
 import numpy as np
 import cv2 as cv
+import Directionprovider
 
-im = cv.imread('test.png')
-assert im is not None, "file could not be read, check with os.path.exists()"
-imgray = cv.cvtColor(im, cv.COLOR_BGR2GRAY)
-ret, thresh = cv.threshold(imgray, 127, 255, 0)
-contours, hierarchy = cv.findContours(thresh, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
-print(contours)
-cv.drawContours(im, contours, -1, (0,255,0), 3)
-cv.imshow("test", im)
-cv.waitKey(0)
+newimage = 'newimage'
+cv.namedWindow(newimage)
+image = cv.imread("C:\\Users\\maker\\Documents\\GitHub\\ball_picker_robot\\pictures\\IMG_6443.png")
+output = Directionprovider.color_based_ball_detector(image)
+output = cv.resize(output, None, fx=0.1, fy=0.1)
+cv.imshow(newimage, output)
+
+key = cv.waitKey(0)
