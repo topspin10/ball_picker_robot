@@ -1,16 +1,17 @@
-import numpy as np
 import cv2 as cv
-import Directionprovider as Dp
 
-newimage = 'newimage'
-cv.namedWindow(newimage)
 image = cv.imread("C:\\Users\\maker\\Documents\\GitHub\\ball_picker_robot\\pictures\\IMG_6443.png")
-output_1 = Dp.color_based_ball_detector(image)
-output_1 = cv.resize(output_1, None, fx=0.1, fy=0.1)
-# cv.imshow(newimage, output_1)
-# image = cv.resize(image, None, fx=0.1, fy=0.1)
-# output_2 = Dp.circle_based_ball_detector(image)
-
-cv.imshow(newimage, output_1)
-
-key = cv.waitKey(0)
+image = cv.resize(image, None, fx=0.1, fy=0.1)
+cv.namedWindow('full image')
+cv.imshow('full image', image)
+# image = image[:2142].shape
+# print(image)
+cv.namedWindow('part image')
+height, length, c = image.shape
+height = height//2
+image_2 = image[height:]
+length = length//10
+for bob in range(10):
+    image_3 = image_2[:,length*bob:length*(bob+1)]
+    cv.imshow('part image', image_3)
+    cv.waitKey(0)
