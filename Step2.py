@@ -8,13 +8,14 @@ import numpy as np
 
 def direction_decider(image):
     """in: output of step 1 - out: number between -1 and 1"""
-    image = cv.resize(image, None, fx=0.1, fy=0.1)
+    #vimage = cv.resize(image, None, fx=0.1, fy=0.1)
+    output_1 = 0
     top_bob = 0
-    cv.namedWindow('full image')
-    cv.imshow('full image', image)
+    # cv.namedWindow('full image')
+    # cv.imshow('full image', image)
     # image = image[:2142].shape
     # print(image)
-    cv.namedWindow('part image')
+    # cv.namedWindow('part image')
     height, length = image.shape
     height = height // 2
     image_2 = image[height:]
@@ -28,7 +29,7 @@ def direction_decider(image):
             top_bob = white_pixel
             output_1 = number
 
-        cv.imshow('part image', image_3)
+        # cv.imshow('part image', image_3)
         cv.waitKey(0)
 
     output_2 = output_1/(9/2)-1
