@@ -28,7 +28,7 @@ def direction_decider(image):
         image_3 = image_2[:, length * slice:length * (slice + 1)]
         white_pixel = np.sum(image_3 == 255)
         if top_slice < white_pixel:
-            if white_pixel >= threshold
+            if white_pixel >= threshold:
                 top_slice = white_pixel
                 output_1 = slice
 
