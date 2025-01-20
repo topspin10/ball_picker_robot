@@ -16,6 +16,9 @@ def color_based_ball_detector(image):
     output_1 = cv2.inRange(image, (low_H, low_S, low_V), (high_H, high_S, high_V))
     output_2 = cv2.erode(output_1, kernel)
     output_3 = cv2.dilate(output_2, kernel, iterations=10)
+    _, length = image.shape
+    if length >= 400 then:
+        
     return output_3
 
 def circle_based_ball_detector(image):
