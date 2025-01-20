@@ -7,6 +7,6 @@ while True:
     _, pic = cam.read()
     # TODO: improve functions, resize images to 400 length
     # TODO: set threshold, set default
-    Bob1 = S1.color_based_ball_detector(pic)
-    Bob2 = S2.direction_decider(Bob1)
-    print(Bob2)
+    black_white = S1.color_based_ball_detector(pic)
+    direction = S2.direction_decider(black_white)
+    print(direction)
