@@ -10,6 +10,7 @@ def color_based_ball_detector(image):
     high_H = 109
     high_S = 255
     high_V = 170
+    max_length = 400
     erosion_shape = cv.MORPH_RECT
     erosion_size = 1
     kernel = cv.getStructuringElement(erosion_shape, (2 * erosion_size + 1, 2 * erosion_size + 1),(erosion_size, erosion_size))
@@ -17,13 +18,9 @@ def color_based_ball_detector(image):
     output_2 = cv.erode(output_1, kernel)
     output_3 = cv.dilate(output_2, kernel, iterations=10)
     _, length = image.shape
-    if length >= 400 then:
-        while True:
-            cv.resize(image, None, fx=0.1, fy=0.1)
-            _, length = image.shape
-            if length =< 400 then:
-                break
-    
+    if length >= max_length then:
+        ratio = max_length / length
+        cv.resize(image, None, fx=ratio, fy=ratio)
     return output_3
 
 def circle_based_ball_detector(image):
