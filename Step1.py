@@ -21,7 +21,7 @@ def color_based_ball_detector(image):
         while True:
             cv.resize(image, None, fx=0.1, fy=0.1)
             _, length = image.shape
-            if length >= 400 then:
+            if length =< 400 then:
                 break
     
     return output_3
