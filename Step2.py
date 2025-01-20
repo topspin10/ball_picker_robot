@@ -10,7 +10,7 @@ def direction_decider(image):
     """in: output of step 1 - out: number between -1 and 1"""
     # image = cv.resize(image, None, fx=0.1, fy=0.1)
     w_bins = 10
-    h_bins
+    h_bins = 2
     output_1 = (w_bins-1)/2
     top_slice = 0
     threshold = 100
