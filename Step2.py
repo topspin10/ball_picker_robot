@@ -11,6 +11,7 @@ def direction_decider(image):
     #vimage = cv.resize(image, None, fx=0.1, fy=0.1)
     output_1 = 0
     top_bob = 0
+    check = 0
     # cv.namedWindow('full image')
     # cv.imshow('full image', image)
     # image = image[:2142].shape
@@ -28,6 +29,9 @@ def direction_decider(image):
         if top_bob < white_pixel:
             top_bob = white_pixel
             output_1 = number
+            check = 1
+if check == 0:
+    output = 1
 
         # cv.imshow('part image', image_3)
         cv.waitKey(0)
