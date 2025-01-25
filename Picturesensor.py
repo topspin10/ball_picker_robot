@@ -113,9 +113,9 @@ while True:
 
     eroded = cv2.erode(frame_threshold, kernel)
     cv2.imshow(Erode, eroded)
-    dingusimage, contours = cv2.findContours(frame_threshold, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    dingusimage, contours = cv2.findContours(eroded, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     print(contours)
-    cv2.drawContours(image, contours, -1, (0, 255, 0), 3)
+    cv2.drawContours(image, contours, 0, (0, 255, 0),-1)
     cv2.imshow(Window, image)
 
     # cv2.imshow(findcontour, contour)
