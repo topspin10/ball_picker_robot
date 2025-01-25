@@ -62,7 +62,7 @@ low_V = 0
 high_H = 109
 high_S = 255
 high_V = 170
-element = 
+element =
 
 cv2.createTrackbar(low_H_name, Mask, low_H, 188, on_low_H_thresh_trackbar)
 cv2.createTrackbar(high_H_name, Mask, high_H, 188, on_high_H_thresh_trackbar)
