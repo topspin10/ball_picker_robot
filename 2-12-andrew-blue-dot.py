@@ -7,7 +7,7 @@ dot = BlueDot()
 orders = []
 motor_A = Motor('A')
 motor_B = Motor('B')
-def figure(pos):
+def direction(pos):
     orders.append(pos)
 def move(pos):
     if pos.top:
@@ -28,7 +28,7 @@ def stop():
 
 dot.when_pressed = move
 dot.when_released = stop
-dot.when_moved = figure
+dot.when_moved = direction
 list_length = len(orders)-1
 while True:
     if len(orders)>0:
