@@ -12,15 +12,15 @@ def direction(pos):
 def move(pos):
     if pos.top:
         motor_B.run_to_position(0)
-        motor_A.start(100)
+        motor_A.start(-100)
     elif pos.bottom:
         motor_B.run_to_position(0)
-        motor_A.start(-100)
-    elif pos.left:
-        motor_B.run_to_position(-45)
         motor_A.start(100)
+    elif pos.left:
+        motor_B.run_to_position(-15)
+        motor_A.start(-100)
     elif pos.right:
-        motor_B.run_to_position(45)
+        motor_B.run_to_position(15)
         motor_A.start(100)
 
 def stop():

@@ -1,0 +1,64 @@
+use cat /sys/kernel/debug/pwm 
+to see the devices and their current pin associations
+
+gpio pinout: https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#gpio
+
+explanation of sys interface in the kernel: https://www.kernel.org/doc/html/v5.10/driver-api/pwm.html#using-pwms-with-the-sysfs-interface
+
+to see all current associations of the pwm devices to pins
+pinctrl |grep -i pwm
+
+to see all alternative functions for each gpio pin:
+pinctrl -c bcm2711 funcs 12-13,18-19
+pinctrl -c rp1 funcs 12-13,18-19
+pinctrl funcs|grep -i pwm
+
+more reading https://forums.raspberrypi.com/viewtopic.php?t=359251
+
+=============================================
+this works, possibly only software pwm 
+from https://www.luisllamas.es/en/pwm-outputs-raspberry-pi/:
+import RPi.GPIO as GPIO
+import time
+
+# Pin configuration
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(18, GPIO.OUT)
+
+# Create a PWM instance with a frequency of 100 Hz
+pwm = GPIO.PWM(18, 100)
+
+=============================================
+using the sysfs interface:
+main sources:
+https://raspberrypi.stackexchange.com/questions/143643/how-can-i-use-dtoverlay-pwm/143644#143644
+https://github.com/danjperron/Pi5PWM_HARDWARE/blob/main/python3/pi5PWM.py
+https://gist.github.com/Gadgetoid/b92ad3db06ff8c264eef2abf0e09d569
+
+load 4 channel pwm overlay (device drivers)
+sudo dtoverlay pwm
+(to remove an overlay use dtoverlay -r pwm)
+
+this enables the 4 channel pwm that is PWM0 in the pinctrl output)
+
+use cat /sys/kernel/debug/pwm before and after to see the device added.
+it adds the device with address: 1f00098000
+
+use ls -l /sys/class/pwm/
+
+to confirm which pwm device number is associated with the address added by the overlay.
+show the second channel for the new device:
+echo 2 > /sys/class/pwm/pwmchip6/export
+this creates /sys/class/pwm/pwmchip6/pwm2
+
+echo 10000000 > /sys/class/pwm/pwmchip6/pwm2/period 
+echo 5000000 > /sys/class/pwm/pwmchip6/pwm2/duty_cycle 
+echo 1 > /sys/class/pwm/pwmchip6/pwm2/enable 
+
+use to make sure to select function 4 (start from 0, default) for the GPIO18 (pin 12).
+pinctrl set 18 a3
+
+
+
+
+
