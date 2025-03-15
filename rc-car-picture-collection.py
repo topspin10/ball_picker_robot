@@ -1,5 +1,7 @@
 from picamera import PiCamera
 import time
+# TODO need to resize images before you save them and save them using a distinct name
+# TODO put this code into startup sequence
 
 while True:
     camera = PiCamera()
