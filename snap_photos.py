@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from picamera2 import Picamera2
 import time
 import cv2 as cv

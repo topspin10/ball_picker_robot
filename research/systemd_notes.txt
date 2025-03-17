@@ -17,3 +17,9 @@ sudo systemctl start myservice.servicee
 sudo systemctl status myservice.service
 
 This setup will ensure that the python script starts automatically everytime the Raspberry Pi boots.
+Remember to make that python script executable:
+1) add this line at the top:
+#!/usr/bin/env python3
+2) chmod ug+x myscript.py
+4. to debug, can use this command to see the log file:
+sudo journalctl -u myservice.service
