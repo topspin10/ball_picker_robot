@@ -12,16 +12,19 @@ def main():
     picam2.configure(config)
 
     picam2.start()
-    
+    n = 0
+
     try:
-        while True:
+        # take photos for 2 minutes, 5 seconds interval
+        while n < 25:
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-            filename = f"{timestamp}.jpg"
+            filename = f"/home/wonwong/Projects/data/{timestamp}.jpg"
 
             picam2.capture_file(filename)
             print(f"Captured {filename}")
 
             time.sleep(5)
+            n = n + 1
     except KeyboardInterrupt:
         print("Stopping capture loop.")
     finally:

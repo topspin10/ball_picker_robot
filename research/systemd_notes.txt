@@ -1,0 +1,19 @@
+Systemd is the modern init system used in Raspberry Pi OS.
+
+For example, supposed you want to run a Python script located at:
+/home/pi/my_script.py
+
+
+Do these steps in terminal : 
+1. create the service file:
+/etc/systemd/system/myservice.service
+
+2. enable and start the service:
+sudo systemctl daemon-reload
+sudo systemctl enable myservice.service
+sudo systemctl start myservice.servicee
+
+3. Check the status:
+sudo systemctl status myservice.service
+
+This setup will ensure that the python script starts automatically everytime the Raspberry Pi boots.
