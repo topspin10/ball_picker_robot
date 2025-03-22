@@ -63,3 +63,4 @@ def image_generator(files, batch_size=32, sz=(256, 256)):
 # TODO:
 #  finish transporting code from
 #  "https://colab.research.google.com/github/zaidalyafeai/Notebooks/blob/master/unet.ipynb#scrollTo=PvwbmS-YTHEZ"
+#  get rid of the np.random.choice
