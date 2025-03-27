@@ -1,8 +1,8 @@
 import cv2
 image = cv2.imread("C:\\Users\\maker\\Documents\\GitHub\\ball_picker_robot\\pictures\\IMG_6443.png")
 # C:\Users\unfin\OneDrive\Documents\GitHub\ball_picker_robot\pictures\IMG_6442.png"
-#"C:\\Users\\maker\\Documents\\GitHub\\ball_picker_robot\\pictures\\IMG_6442.png"
-#image = cv2.imread("C:\\Users\\maker\\Pictures\\IMG_6442.png")
+# "C:\\Users\\maker\\Documents\\GitHub\\ball_picker_robot\\pictures\\IMG_6442.png"
+# image = cv2.imread("C:\\Users\\maker\\Pictures\\IMG_6442.png")
 print(type(image))
 low_H_name = 'Low H'
 low_S_name = 'Low S'
@@ -15,12 +15,14 @@ Mask = 'mask'
 Erode = 'erode'
 findcontour = 'findcontour'
 
+
 def on_low_H_thresh_trackbar(val):
     global low_H
     global high_H
     low_H = val
     low_H = min(high_H-1, low_H)
     cv2.setTrackbarPos(low_H_name, Mask, low_H)
+
 
 def on_high_H_thresh_trackbar(val):
     global low_H
@@ -29,12 +31,14 @@ def on_high_H_thresh_trackbar(val):
     high_H = max(high_H, low_H+1)
     cv2.setTrackbarPos(high_H_name, Mask, high_H)
 
+
 def on_low_S_thresh_trackbar(val):
     global low_S
     global high_S
     low_S = val
     low_S = min(high_S-1, low_S)
     cv2.setTrackbarPos(low_S_name, Mask, low_S)
+
 
 def on_high_S_thresh_trackbar(val):
     global low_S
@@ -43,12 +47,14 @@ def on_high_S_thresh_trackbar(val):
     high_S = max(high_S, low_S+1)
     cv2.setTrackbarPos(high_S_name, Mask, high_S)
 
+
 def on_low_V_thresh_trackbar(val):
     global low_V
     global high_V
     low_V = val
     low_V = min(high_V-1, low_V)
     cv2.setTrackbarPos(low_V_name, Mask, low_V)
+
 
 def on_high_V_thresh_trackbar(val):
     global low_V
@@ -72,7 +78,7 @@ high_S = 255
 high_V = 170
 erosion_shape = cv2.MORPH_RECT
 erosion_size = 1
-kernel = cv2.getStructuringElement(erosion_shape, (2 * erosion_size + 1, 2 * erosion_size + 1),(erosion_size, erosion_size))
+kernel = cv2.getStructuringElement(erosion_shape, (2 * erosion_size + 1, 2 * erosion_size + 1), (erosion_size, erosion_size))
 # title_trackbar_element_shape = 'Element:\n 0: Rect \n 1: Cross \n 2: Ellipse'
 # frame_threshold = cv2.inRange(image, (low_H, low_S, low_V), (high_H, high_S, high_V))
 # cv2.imshow(Mask, frame_threshold)
@@ -115,9 +121,7 @@ while True:
 
     # erosion("C:\\Users\\maker\\Documents\\GitHub\\ball_picker_robot\\pictures\\IMG_6443.png")
 
-
-
-    eroded = cv2.dilate(frame_threshold, kernel,iterations = 2)
+    eroded = cv2.dilate(frame_threshold, kernel, iterations=2)
     cv2.imshow(Erode, eroded)
 # <<<<<<< HEAD
 #     dingusimage, contours = cv2.findContours(eroded, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -125,7 +129,7 @@ while True:
 #     cv2.drawContours(image, contours, 0, (0, 255, 0),-1)
 #     cv2.imshow(Window, image)
 # =======
-    contours,_ = cv2.findContours(eroded, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    contours, _ = cv2.findContours(eroded, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     print(contours)
     cv2.drawContours(image, contours, -1, (0, 255, 0), -1)
     cv2.imshow(findcontour, image)
