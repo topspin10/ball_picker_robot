@@ -14,7 +14,7 @@ from PIL import Image
 # import tensorflow as tf
 # import glob
 # import random
-# import cv2
+import cv2 as cv
 from random import shuffle
 
 
@@ -33,17 +33,17 @@ def image_generator(files, batch_size=32, sz=(256, 256)):
         for f in batch:
 
             # get the masks. Note that masks are png files
-            mask = Image.open(f'annotations/trimaps/{f[:-4]}.png')
+            mask = Image.open(f'data/Masks/{f[:-4]}.png')
             mask = np.array(mask.resize(sz))
 
             # preprocess the mask
-            mask[mask >= 2] = 0
-            mask[mask != 0] = 1
+            # mask[mask >= 2] = 0
+            # mask[mask != 0] = 1
 
             batch_y.append(mask)
 
             # preprocess the raw images
-            raw = Image.open(f'images/{f}')
+            raw = Image.open(f'data/Images/{f}')
             raw = raw.resize(sz)
             raw = np.array(raw)
 
@@ -65,10 +65,15 @@ def image_generator(files, batch_size=32, sz=(256, 256)):
         yield batch_x, batch_y
 
 
-batch_size = 32
+batch_size = 2
 
-all_files = os.listdir('images')
+# TODO: change line below so that 'images' is data/Images #1
+all_files = os.listdir('data/Images')
 shuffle(all_files)
+image = 'image'
+cv.namedWindow(image)
+mask = 'mask'
+cv.namedWindow(mask)
 
 split = int(0.95 * len(all_files))
 
@@ -78,26 +83,30 @@ test_files = all_files[split:]
 
 train_generator = image_generator(train_files, batch_size=batch_size)
 test_generator = image_generator(test_files, batch_size=batch_size)
-batch_size = 32
-
-all_files = os.listdir('images')
-shuffle(all_files)
-
-split = int(0.95 * len(all_files))
-
-# split into training and testing
-train_files = all_files[0:split]
-test_files = all_files[split:]
-
-train_generator = image_generator(train_files, batch_size=batch_size)
-test_generator = image_generator(test_files, batch_size=batch_size)
+# batch_size = 32
+#
+# all_files = os.listdir('images')
+# shuffle(all_files)
+#
+# split = int(0.95 * len(all_files))
+#
+# # split into training and testing
+# train_files = all_files[0:split]
+# test_files = all_files[split:]
+#
+# train_generator = image_generator(train_files, batch_size=batch_size)
+# test_generator = image_generator(test_files, batch_size=batch_size)
 x, y = next(train_generator)
 plt.axis('off')
 img = x[0]
 msk = y[0].squeeze()
-msk = np.stack((msk,)*3, axis=-1)
+# msk = np.stack((msk,)*3, axis=-1)
+# msk = msk.sum(axis=-1)
 
-plt.imshow(np.concatenate([img, msk, img*msk], axis=1))
+cv.imshow(image, img)
+cv.imshow(mask, msk)
+key = cv.waitKey(0)
+# plt.imshow(np.concatenate([img, msk, img*msk], axis=1))
 # TODO:
 #  finish transporting code from
 #  "https://colab.research.google.com/github/zaidalyafeai/Notebooks/blob/master/unet.ipynb#scrollTo=PvwbmS-YTHEZ"
