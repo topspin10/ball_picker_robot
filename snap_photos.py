@@ -10,7 +10,7 @@ from datetime import datetime
 def main():
     picam2 = Picamera2()
 
-    config = picam2.create_still_configuration(main={"size": (800, 800)})
+    config = picam2.create_still_configuration(main={"size": (4608, 2592)})
     picam2.configure(config)
 
     picam2.start()
