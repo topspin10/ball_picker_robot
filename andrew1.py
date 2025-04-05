@@ -103,6 +103,7 @@ msk = y[0].squeeze()
 # msk = np.stack((msk,)*3, axis=-1)
 # msk = msk.sum(axis=-1)
 
+img = img[..., ::-1]
 cv.imshow(image, img)
 cv.imshow(mask, msk)
 key = cv.waitKey(0)
