@@ -113,8 +113,13 @@ for epoch in range(num_epochs):
     correct = 0
     total = 0
 
-images = []
-    for i, (images, labels) in enumerate(a1.image_generator(images)):
+    # List all image files in the images folder
+images_list = [f for f in os.listdir(image_folder) if os.path.isfile(os.path.join(image_folder, f))]
+
+# Create a list of corresponding mask filenames based on image filenames
+masks_list = [f for f in os.listdir(mask_folder) if os.path.isfile(os.path.join(mask_folder, f))]
+
+    for i, (images_lists, masks_list) in enumerate(a1.image_generator(images)):
         # Zero the gradients
         optimizer.zero_grad()
 
