@@ -1,5 +1,6 @@
 from PIL import Image
 import andrew1 as a1
+import os
 
 # Open an image file
 image = Image.open("C:\\Users\\maker\\Downloads\\poop\\default\\semantic\\IMG_6438.png")
@@ -112,6 +113,7 @@ for epoch in range(num_epochs):
     correct = 0
     total = 0
 
+images = 
     for i, (images, labels) in enumerate(a1.image_generator(images)):
         # Zero the gradients
         optimizer.zero_grad()
