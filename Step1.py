@@ -2,6 +2,7 @@ import cv2 as cv
 import numpy as np
 
 
+# TODO: create a resize function
 def color_based_ball_detector(image):
     # input = image output = black and white version of the image
     max_length = 400

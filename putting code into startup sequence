@@ -1,0 +1,37 @@
+2. Using Systemd (Modern and Recommended):
+
+How it works:
+Systemd is the system and service manager used by modern Linux distributions, including Raspberry Pi OS.
+You create a systemd service unit file to define how your script should be run.
+Steps:
+Create a service unit file:
+sudo nano /etc/systemd/system/your_service.service
+Add the following content (adjust paths and user as needed):
+Ini, TOML
+
+[Unit]
+Description=My Python Script
+After=network.target
+
+[Service]
+User=pi
+WorkingDirectory=/home/pi
+ExecStart=/usr/bin/python3 /home/pi/your_script.py
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+Explanation:
+Description: A description of your service.
+After=network.target: Starts the service after the network is available.
+User: The user to run the script as.
+WorkingDirectory: The directory where your script is located.
+ExecStart: The command to run your script.
+Restart=on-failure: Restarts the script if it crashes.
+WantedBy=multi-user.target: Starts the service when the system enters the multi-user state.
+Enable the service:
+sudo systemctl enable your_service.service
+Start the service (optional, for testing):
+sudo systemctl start your_service.service
+Reboot:
+sudo reboot

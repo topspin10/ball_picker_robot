@@ -1,0 +1,11 @@
+[Unit]
+Description=Snap_photos
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=/home/wonwong/Projects/ball_picker_robot/snap_photos.py
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
