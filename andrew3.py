@@ -113,7 +113,7 @@ for epoch in range(num_epochs):
     correct = 0
     total = 0
 
-images = 
+images = []
     for i, (images, labels) in enumerate(a1.image_generator(images)):
         # Zero the gradients
         optimizer.zero_grad()
