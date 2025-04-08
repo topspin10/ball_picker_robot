@@ -1,16 +1,7 @@
 from PIL import Image
-import andrew1 as a1
 import os
-
-# Open an image file
-image = Image.open("C:\\Users\\maker\\Downloads\\poop\\default\\semantic\\IMG_6438.png")
-
-
-x, y = 2650, 2550  # Example coordinates
-pixel_value = image.getpixel((x, y))
-
-print(f"The pixel value at ({x}, {y}) is: {pixel_value}")
-
+import numpy as np
+from torch.utils.data import DataLoader, Dataset
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -40,26 +31,64 @@ class SimpleCNN(nn.Module):
 
         # Apply Fully Connected Layer to 3 classes
         x = self.fc1(x)
+        x = F.softmax(x,dim=1)
 
         return x
 
 
+# def image_generator(files, batch_size=32, sz=(256, 256)):
+#     while True:
+#
+#         # extract a random batch
+#         batch = np.random.choice(files, size=batch_size)
+#
+#         # variables for collecting batches of inputs and outputs
+#         batch_x = []
+#         batch_y = []
+#
+#         for f in batch:
+#
+#             # get the masks. Note that masks are png files
+#             mask = Image.open(f'data/Masks/{f[:-4]}.png')
+#             mask = np.array(mask.resize(sz))
+#
+#             # preprocess the mask
+#             # mask[mask >= 2] = 0
+#             # mask[mask != 0] = 1
+#
+#             batch_y.append(mask)
+#
+#             # preprocess the raw images
+#             raw = Image.open(f'data/Images/{f}')
+#             raw = raw.resize(sz)
+#             raw = np.array(raw)
+#
+#             # check the number of channels because some of the images are RGBA or GRAY
+#             if len(raw.shape) == 2:
+#                 raw = np.stack((raw,) * 3, axis=-1)
+#
+#             else:
+#                 raw = raw[:, :, 0:3]
+#
+#             batch_x.append(raw)
+#
+#         # preprocess a batch of images and masks
+#         # creates n
+#         batch_x = np.array(batch_x) / 255.
+#         batch_y = np.array(batch_y)
+#         batch_y = np.expand_dims(batch_y, 3)
+#
+#         yield batch_x, batch_y
+#
+
 # Example Input Size (e.g., 28x28 grayscale images)
-input_height = 28
-input_width = 28
+# input_height = 28
+# input_width = 28
 
 # Create the model
 model = SimpleCNN()
 
-# Example input tensor with a batch size of 4 and image size 28x28 (grayscale)
-input_tensor = torch.randn(4, 1, input_height, input_width)  # (batch_size, channels, height, width)
-
-# Forward pass
-output = model(input_tensor)
-
 # Print the output size
-print("Output shape:", output.shape)  # Should be (batch_size, 3) for 3 class labels
-from torch.utils.data import DataLoader, Dataset
 #
 # # Simple CNN Model for pixel-wise classification
 # class SimpleCNNModel(nn.Module):
@@ -77,20 +106,32 @@ from torch.utils.data import DataLoader, Dataset
 #         return x
 #
 # # Dummy dataset for the purpose of this example (replace with your dataset)
-# class DummyDataset(Dataset):
-#     def __init__(self, num_samples=100, image_size=(3, 64, 64), num_classes=3):
-#         self.num_samples = num_samples
-#         self.image_size = image_size
-#         self.num_classes = num_classes
-#
-#     def __len__(self):
-#         return self.num_samples
-#
-#     def __getitem__(self, idx):
-#         # Create random images and random labels
-#         image = torch.randn(*self.image_size)  # Random image
-#         label = torch.randint(0, self.num_classes, (self.image_size[1], self.image_size[2]))  # Random labels
-#         return image, label
+
+
+class DummyDataset(Dataset):
+    def __init__(self, folder='C:\\Users\\unfin\\OneDrive\\Documents\\GitHub\\ball_picker_robot\\data\\Images'):
+        #TODO remember to store folder in self
+    #TODO jpg_files = [file for file in self.files if file.lower().endswith('.jpg')]
+        self.files = os.listdir(folder)
+
+    def __len__(self):
+        return len(self.files)
+
+    def __getitem__(self, idx):
+        # # Create random images and random labels
+        # image = torch.randn(*self.image_size)  # Random image
+        # label = torch.randint(0, self.num_classes, (self.image_size[1], self.image_size[2]))  # Random labels
+        if idx > (len(self.files)-1):
+            raise IndexError("index is toooooooooo looooooong")
+        #TODO join folder to name
+        image = Image.open(self.files[idx])
+        #TODO remove /Images replace with /Masks
+        #TODO add resize for both
+        label = Image.open(f'data/Masks/{image[:-4]}.png')
+        image = np.array(image) / 255.
+        label = np.array(label) / 255.
+        return image, label
+
 
 # Hyperparameters
 num_epochs = 10
@@ -113,21 +154,25 @@ for epoch in range(num_epochs):
     correct = 0
     total = 0
 
+#TODO not needed anymore
+    image_folder = os.listdir('C:\\Users\\unfin\\OneDrive\\Documents\\GitHub\\ball_picker_robot\\data\\Images')
+    mask_folder = os.listdir('C:\\Users\\unfin\\OneDrive\\Documents\\GitHub\\ball_picker_robot\\data\\Masks')
     # List all image files in the images folder
-images_list = [f for f in os.listdir(image_folder) if os.path.isfile(os.path.join(image_folder, f))]
+    images_list = [f for f in os.listdir(image_folder) if os.path.isfile(os.path.join(image_folder, f))]
 
-# Create a list of corresponding mask filenames based on image filenames
-masks_list = [f for f in os.listdir(mask_folder) if os.path.isfile(os.path.join(mask_folder, f))]
+    # Create a list of corresponding mask filenames based on image filenames
+    masks_list = [f for f in os.listdir(mask_folder) if os.path.isfile(os.path.join(mask_folder, f))]
 
-    for i, (images_lists, masks_list) in enumerate(a1.image_generator(images)):
+#TODO make sure enumerate works on train_loader
+    for i, (images_lists, masks_list) in enumerate(train_loader):
         # Zero the gradients
         optimizer.zero_grad()
 
         # Forward pass
-        outputs = model(images)
+        outputs = model(images_list)
 
         # Compute the loss (CrossEntropyLoss expects shape (N, C, H, W) for input and (N, H, W) for target)
-        loss = criterion(outputs, labels)
+        loss = criterion(outputs, masks_list)
         running_loss += loss.item()
 
         # Backward pass and optimization
@@ -136,8 +181,8 @@ masks_list = [f for f in os.listdir(mask_folder) if os.path.isfile(os.path.join(
 
         # Calculate accuracy (pixel-wise accuracy)
         _, predicted = torch.max(outputs, 1)  # Get the class with the highest probability for each pixel
-        correct += (predicted == labels).sum().item()  # Count correct predictions
-        total += labels.numel()  # Total number of pixels
+        correct += (predicted == masks_list).sum().item()  # Count correct predictions
+        total += masks_list.numel()  # Total number of pixels
 
     # Print loss and accuracy for each epoch
     epoch_loss = running_loss / len(train_loader)
