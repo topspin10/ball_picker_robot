@@ -109,9 +109,9 @@ model = SimpleCNN()
 
 
 class DummyDataset(Dataset):
-    def __init__(self, folder='C:\\Users\\unfin\\OneDrive\\Documents\\GitHub\\ball_picker_robot\\data\\Images'):
+    def __init__(self, folder='data\\Images'):
         #TODO remember to store folder in self
-    #TODO jpg_files = [file for file in self.files if file.lower().endswith('.jpg')]
+        #TODO jpg_files = [file for file in self.files if file.lower().endswith('.jpg')]
         self.files = os.listdir(folder)
 
     def __len__(self):
@@ -124,10 +124,17 @@ class DummyDataset(Dataset):
         if idx > (len(self.files)-1):
             raise IndexError("index is toooooooooo looooooong")
         #TODO join folder to name
-        image = Image.open(self.files[idx])
+        image = os.path.join("data\\Images", Image.open(self.files[idx]))
         #TODO remove /Images replace with /Masks
         #TODO add resize for both
-        label = Image.open(f'data/Masks/{image[:-4]}.png')
+        label = os.path.basename(image)
+        label = Image.open(f'data\\Masks\\{label[:-4]}.png')
+        new_width = 300
+        new_height = 200
+        new_size = (new_width, new_height)
+        # Resize the image
+        image = image.resize(new_size)
+        label = label.resize(new_size)
         image = np.array(image) / 255.
         label = np.array(label) / 255.
         return image, label
@@ -139,7 +146,7 @@ batch_size = 8
 learning_rate = 0.001
 
 # Create dataset and dataloaders
-train_dataset = DummyDataset(num_samples=100, image_size=(3, 64, 64), num_classes=3)
+train_dataset = DummyDataset()
 train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
 
 # Initialize model, loss function, and optimizer
