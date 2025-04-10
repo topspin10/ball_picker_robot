@@ -31,7 +31,7 @@ class SimpleCNN(nn.Module):
 
         # Apply Fully Connected Layer to 3 classes
         x = self.fc1(x)
-        x = F.softmax(x,dim=1)
+        x = F.softmax(x, dim=1)
 
         return x
 
@@ -110,8 +110,8 @@ model = SimpleCNN()
 
 class DummyDataset(Dataset):
     def __init__(self, folder='data\\Images'):
-        #TODO remember to store folder in self
-        #TODO jpg_files = [file for file in self.files if file.lower().endswith('.jpg')]
+        # TODO remember to store folder in self
+        # TODO jpg_files = [file for file in self.files if file.lower().endswith('.jpg')]
         self.files = os.listdir(folder)
 
     def __len__(self):
@@ -123,10 +123,10 @@ class DummyDataset(Dataset):
         # label = torch.randint(0, self.num_classes, (self.image_size[1], self.image_size[2]))  # Random labels
         if idx > (len(self.files)-1):
             raise IndexError("index is toooooooooo looooooong")
-        #TODO join folder to name
+        # TODO join folder to namen DONE
         image = os.path.join("data\\Images", Image.open(self.files[idx]))
-        #TODO remove /Images replace with /Masks
-        #TODO add resize for both
+        # TODO remove /Images replace with /Masks
+        # TODO add resize for both DONE
         label = os.path.basename(image)
         label = Image.open(f'data\\Masks\\{label[:-4]}.png')
         new_width = 300
@@ -161,35 +161,37 @@ for epoch in range(num_epochs):
     correct = 0
     total = 0
 
-#TODO not needed anymore
-    image_folder = os.listdir('C:\\Users\\unfin\\OneDrive\\Documents\\GitHub\\ball_picker_robot\\data\\Images')
-    mask_folder = os.listdir('C:\\Users\\unfin\\OneDrive\\Documents\\GitHub\\ball_picker_robot\\data\\Masks')
+# TODO not needed anymore
+    image_folder = 'C:\\Users\\maker\\Documents\\GitHub\\ball_picker_robot\\data\\Images'
+    mask_folder = 'C:\\Users\\maker\\Documents\\GitHub\\ball_picker_robot\\data\\Masks'
     # List all image files in the images folder
-    images_list = [f for f in os.listdir(image_folder) if os.path.isfile(os.path.join(image_folder, f))]
+    images_list = [f for f in image_folder if os.path.isfile(os.path.join(image_folder, f))]
 
     # Create a list of corresponding mask filenames based on image filenames
-    masks_list = [f for f in os.listdir(mask_folder) if os.path.isfile(os.path.join(mask_folder, f))]
+    masks_list = [f for f in mask_folder if os.path.isfile(os.path.join(mask_folder, f))]
 
-#TODO make sure enumerate works on train_loader
-    for i, (images_lists, masks_list) in enumerate(train_loader):
-        # Zero the gradients
-        optimizer.zero_grad()
+image_folder = os.listdir('C:\\Users\\maker\\Documents\\GitHub\\ball_picker_robot\\data\\Images')
+mask_folder = os.listdir('C:\\Users\\maker\\Documents\\GitHub\\ball_picker_robot\\data\\Masks')
+# TODO make sure enumerate works on train_loader
+for i, (images_lists, masks_list) in enumerate(train_loader):
+    # Zero the gradients
+    optimizer.zero_grad()
 
-        # Forward pass
-        outputs = model(images_list)
+    # Forward pass
+    outputs = model(images_list)
 
-        # Compute the loss (CrossEntropyLoss expects shape (N, C, H, W) for input and (N, H, W) for target)
-        loss = criterion(outputs, masks_list)
-        running_loss += loss.item()
+    # Compute the loss (CrossEntropyLoss expects shape (N, C, H, W) for input and (N, H, W) for target)
+    loss = criterion(outputs, masks_list)
+    running_loss += loss.item()
 
-        # Backward pass and optimization
-        loss.backward()
-        optimizer.step()
+    # Backward pass and optimization
+    loss.backward()
+    optimizer.step()
 
-        # Calculate accuracy (pixel-wise accuracy)
-        _, predicted = torch.max(outputs, 1)  # Get the class with the highest probability for each pixel
-        correct += (predicted == masks_list).sum().item()  # Count correct predictions
-        total += masks_list.numel()  # Total number of pixels
+    # Calculate accuracy (pixel-wise accuracy)
+    _, predicted = torch.max(outputs, 1)  # Get the class with the highest probability for each pixel
+    correct += (predicted == masks_list).sum().item()  # Count correct predictions
+    total += masks_list.numel()  # Total number of pixels
 
     # Print loss and accuracy for each epoch
     epoch_loss = running_loss / len(train_loader)
