@@ -19,7 +19,7 @@ class SimpleCNN(nn.Module):
         # Fully Connected Layer to 3 output classes
         # After applying the convolution, we need to compute the flattened size
         # defines a fully connected layer
-        self.fc1 = nn.Linear(5, 3)  # Assuming input size is (input_height, input_width)
+        self.fc1 = nn.Linear(5 * 300 * 200, 3)  # Assuming input size is (input_height, input_width)
 
     def forward(self, x):
         # Apply Convolutional Layer
@@ -109,10 +109,12 @@ model = SimpleCNN()
 
 
 class DummyDataset(Dataset):
-    def __init__(self, folder='data\\Images'):
+    def __init__(self, folder='data//Images'):
         # TODO remember to store folder in self
         # TODO jpg_files = [file for file in self.files if file.lower().endswith('.jpg')]
         self.files = os.listdir(folder)
+        self.folder = folder
+        print(self.folder)
 
     def __len__(self):
         return len(self.files)
@@ -123,12 +125,13 @@ class DummyDataset(Dataset):
         # label = torch.randint(0, self.num_classes, (self.image_size[1], self.image_size[2]))  # Random labels
         if idx > (len(self.files)-1):
             raise IndexError("index is toooooooooo looooooong")
-        # TODO join folder to namen DONE
-        image = os.path.join("data\\Images", Image.open(self.files[idx]))
+        # TODO join folder to name DONE
+        image = Image.open(os.path.join("data//Images", self.files[idx]))
         # TODO remove /Images replace with /Masks
         # TODO add resize for both DONE
-        label = os.path.basename(image)
-        label = Image.open(f'data\\Masks\\{label[:-4]}.png')
+        image_path = os.path.join("data//Images", self.files[idx])
+        label = os.path.basename(image_path)
+        label = Image.open(f'data//Masks//{label[:-4]}.png')
         new_width = 300
         new_height = 200
         new_size = (new_width, new_height)
@@ -137,6 +140,8 @@ class DummyDataset(Dataset):
         label = label.resize(new_size)
         image = np.array(image) / 255.
         label = np.array(label) / 255.
+        image = torch.from_numpy(image).float().permute(2, 0, 1)  # Convert to Tensor (C, H, W)
+        mask = torch.from_numpy(mask).long()  # Convert to Tensor (H, W), crucial for CrossEntropyLoss
         return image, label
 
 
@@ -162,16 +167,16 @@ for epoch in range(num_epochs):
     total = 0
 
 # TODO not needed anymore
-    image_folder = 'C:\\Users\\maker\\Documents\\GitHub\\ball_picker_robot\\data\\Images'
-    mask_folder = 'C:\\Users\\maker\\Documents\\GitHub\\ball_picker_robot\\data\\Masks'
+    image_folder = 'data//Images'
+    mask_folder = 'data//Masks'
     # List all image files in the images folder
     images_list = [f for f in image_folder if os.path.isfile(os.path.join(image_folder, f))]
 
     # Create a list of corresponding mask filenames based on image filenames
     masks_list = [f for f in mask_folder if os.path.isfile(os.path.join(mask_folder, f))]
 
-image_folder = os.listdir('C:\\Users\\maker\\Documents\\GitHub\\ball_picker_robot\\data\\Images')
-mask_folder = os.listdir('C:\\Users\\maker\\Documents\\GitHub\\ball_picker_robot\\data\\Masks')
+image_folder = os.listdir('data//Images')
+mask_folder = os.listdir('data//Masks')
 # TODO make sure enumerate works on train_loader
 for i, (images_lists, masks_list) in enumerate(train_loader):
     # Zero the gradients
