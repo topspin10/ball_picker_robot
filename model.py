@@ -7,8 +7,12 @@ import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
 
-
+folder = 'data//Images'
+files = os.listdir(folder)
+print(files)
 # Define the CNN architecture
+
+
 class SimpleCNN(nn.Module):
     def __init__(self):
         super(SimpleCNN, self).__init__()
@@ -110,7 +114,7 @@ model = SimpleCNN()
 
 class DummyDataset(Dataset):
     def __init__(self, folder='data//Images'):
-        # TODO remember to store folder in self
+        # TODO remember to store folder in self DONE
         # TODO jpg_files = [file for file in self.files if file.lower().endswith('.jpg')]
         self.files = os.listdir(folder)
         self.folder = folder
@@ -141,7 +145,7 @@ class DummyDataset(Dataset):
         image = np.array(image) / 255.
         label = np.array(label) / 255.
         image = torch.from_numpy(image).float().permute(2, 0, 1)  # Convert to Tensor (C, H, W)
-        mask = torch.from_numpy(mask).long()  # Convert to Tensor (H, W), crucial for CrossEntropyLoss
+        label = torch.from_numpy(label).long()  # Convert to Tensor (H, W), crucial for CrossEntropyLoss
         return image, label
 
 
