@@ -7,9 +7,6 @@ import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
 
-folder = 'data//Images'
-files = os.listdir(folder)
-print(files)
 # Define the CNN architecture
 
 
@@ -112,7 +109,9 @@ model = SimpleCNN()
 # # Dummy dataset for the purpose of this example (replace with your dataset)
 
 
+# class returns images and masks
 class DummyDataset(Dataset):
+    # every time an instance of DummyDataset is created, it runs __init__
     def __init__(self, folder='data//Images'):
         # TODO remember to store folder in self DONE
         # TODO jpg_files = [file for file in self.files if file.lower().endswith('.jpg')]
@@ -120,6 +119,7 @@ class DummyDataset(Dataset):
         self.folder = folder
         print(self.folder)
 
+    # called
     def __len__(self):
         return len(self.files)
 
@@ -128,14 +128,14 @@ class DummyDataset(Dataset):
         # image = torch.randn(*self.image_size)  # Random image
         # label = torch.randint(0, self.num_classes, (self.image_size[1], self.image_size[2]))  # Random labels
         if idx > (len(self.files)-1):
-            raise IndexError("index is toooooooooo looooooong")
+            raise IndexError("index is too long")
         # TODO join folder to name DONE
-        image = Image.open(os.path.join("data//Images", self.files[idx]))
+        image = Image.open(os.path.join(self.folder, self.files[idx]))
         # TODO remove /Images replace with /Masks
         # TODO add resize for both DONE
-        image_path = os.path.join("data//Images", self.files[idx])
-        label = os.path.basename(image_path)
-        label = Image.open(f'data//Masks//{label[:-4]}.png')
+        # TODO given the folder and the self.files[idx] think what happens if folder is completely different
+        # what assumptions are you making for self.folder[:-6] to make sense
+        label = Image.open(os.path.join(f'{self.folder[:-6]}Masks//', f'{self.files[idx][:-4]}.png'))
         new_width = 300
         new_height = 200
         new_size = (new_width, new_height)
@@ -173,16 +173,16 @@ for epoch in range(num_epochs):
 # TODO not needed anymore
     image_folder = 'data//Images'
     mask_folder = 'data//Masks'
+    image_files = os.listdir('data//Images')
+    mask_files = os.listdir('data//Masks')
     # List all image files in the images folder
-    images_list = [f for f in image_folder if os.path.isfile(os.path.join(image_folder, f))]
+    images_list = [f for f in image_files if os.path.isfile(os.path.join(image_folder, f))]
 
     # Create a list of corresponding mask filenames based on image filenames
-    masks_list = [f for f in mask_folder if os.path.isfile(os.path.join(mask_folder, f))]
+    masks_list = [f for f in mask_files if os.path.isfile(os.path.join(mask_folder, f))]
 
-image_folder = os.listdir('data//Images')
-mask_folder = os.listdir('data//Masks')
 # TODO make sure enumerate works on train_loader
-for i, (images_lists, masks_list) in enumerate(train_loader):
+for i, (images_list, masks_list) in enumerate(train_loader):
     # Zero the gradients
     optimizer.zero_grad()
 

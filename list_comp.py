@@ -16,4 +16,4 @@ import random
 # list_3 = [c**2 for c in [random.randint(1,100) for d in range(1,6)] if c%2==1]
 # print(list_3)
 
-[print([c**2 for c in [random.randint(1,100) for _ in range(1,6)] if c%2==0]) for _ in range(1,11)]
+[print([c**2 for c in [random.randint(1, 100) for _ in range(1, 6)] if c % 2 == 0]) for _ in range(1, 11)]
