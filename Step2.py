@@ -1,5 +1,3 @@
-import cv2 as cv
-import Step1 as S1
 import numpy as np
 
 # image = cv.imread("C:\\Users\\maker\\Documents\\GitHub\\ball_picker_robot\\pictures\\IMG_6443.png")
