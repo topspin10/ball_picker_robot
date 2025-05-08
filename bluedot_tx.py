@@ -2,7 +2,7 @@ from bluedot import BlueDot
 import time
 import serial
 
-ser = serial.Serial('/dev/ttyACM1')  # open serial port
+ser = serial.Serial('/dev/ttyACM1')  # open serial port; port name may change if you disconnect
 cmd = None
 
 def send_dir(pos):
