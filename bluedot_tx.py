@@ -3,18 +3,27 @@ import time
 import serial
 
 ser = serial.Serial('/dev/ttyACM1')  # open serial port; port name may change if you disconnect
+success = 0
 
 # The functions below sends commands to the serial port
 # input: commands
 # output: nothing
 def stop():
-    ser.write('0, 0\n'.encode('ascii'))
+    while success == 0:
+        try:
+            ser.write('0, 0\n'.encode('ascii'))
+        except:
+            ser = serial.Serial('/dev/ttyACM1')
+
 
 def send_dir(pos):
     # pos.distance is a float from 0 to 1.
     cmd = f'{int(pos.distance*100)}, {int(pos.angle)}\n' # REMEMBER: \n is CRITICAL. Vex hub NEEDS it.
     # print(cmd)
-    ser.write(cmd.encode('ascii'))
+    try:
+        ser.write(cmd.encode('ascii'))
+    except:
+        ser = serial.Serial('/dev/ttyACM1')
 
 dot = BlueDot()
 dot.when_pressed = send_dir
