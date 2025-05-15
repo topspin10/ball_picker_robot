@@ -19,6 +19,7 @@ def command_sender(d, a):
             break
         except:
             success = False
+
 # The functions below sends commands to the serial port
 # input: commands
 # output:
@@ -30,7 +31,6 @@ def stop():
 
 
 def send_dir(pos):
-    success = True
     # pos.distance is a float from 0 to 1.
     d = {int(pos.distance*100)}
     a = {int(pos.angle)}
