@@ -10,6 +10,7 @@ ser = serial.Serial(ACM)  # open serial port; port name may change if you discon
 
 
 def command_sender(d, a):
+    global ser
     success = True
     while True:
         try:
@@ -26,7 +27,6 @@ def command_sender(d, a):
 
 def stop():
     command_sender(0, 0)
-
 
 
 def send_dir(pos):
