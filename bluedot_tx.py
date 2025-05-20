@@ -44,7 +44,7 @@ dot = BlueDot()
 # dot.when_released = stop
 
 while True:
-    # time.sleep(0.3)
+    time.sleep(0.1)
     if dot.is_pressed:
         d = int(dot.position.distance*100)
         a = int(dot.position.angle)
