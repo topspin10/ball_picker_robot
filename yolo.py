@@ -12,7 +12,7 @@ picam2.configure("preview")
 picam2.start()
 
 # Load the YOLO11 model montagem tomada
-model = YOLO("/home/maker/Downloads/yolo11n.pt")
+model = YOLO("/home/wonwong/Downloads/yolo11n.pt")
 
 while True:
     # Capture frame-by-frame
@@ -22,10 +22,10 @@ while True:
     results = model(frame)
 
     # Visualize the results on the frame
-    #annotated_frame = results[0].plot()
-    print(results[0].tojson())
+    annotated_frame = results[0].plot()
+    #print(results[0].tojson())
     # Display the resulting frame
-    #cv2.imshow("Camera", annotated_frame)
+    cv2.imshow("Camera", annotated_frame)
 
     # Break the loop if 'q' is pressed
     if cv2.waitKey(1) == ord("q"):
