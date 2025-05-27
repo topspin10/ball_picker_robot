@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+w#!/usr/bin/env python3
 
 from picamera2 import Picamera2
 import time
