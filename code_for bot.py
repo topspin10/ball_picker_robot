@@ -9,7 +9,7 @@ picam2.start()
 ACM = sys.argv[1]
 ser = serial.Serial(ACM)  # open serial port; port name may change if you disconnect
 while not p < 13:
-    ser.write('30\n'.encode('ascii'))
+    ser.write('30\n'.encode('ascii')) # REMEBER \n is needed so the message is actually sent
     time.sleep(3)
     config = picam2.create_still_configuration(main={"size": (4608, 2592)})
     picam2.configure(config)
@@ -17,3 +17,4 @@ while not p < 13:
     filename = f"/home/wonwong/Projects/data/{timestamp}.jpg"
     picam2.capture_file(filename)
     p = p + 1
+
