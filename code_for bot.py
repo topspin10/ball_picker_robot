@@ -9,18 +9,23 @@ def command_sender(*args):
     global ser
     success = True
     cmd = ','.join(map(str, args))
-    while True:
-        # TODO only try to connect again a certain amount of times
+    num_of_tries = 0
+    while num_of_tries < 4:
         try:
             if not success:
                 ser = serial.Serial(ACM)
             # print(d, a)
             ser.write(f'{cmd}\n'.encode('ascii'))
             # TODO wait for okay
-            # TODO wait for done to make sure the vex robot has turned (consider waiting a max amount of secs
+            while ser.readlines() == None:
+                time.sleep(0.1)
+            # TODO wait for done to make sure the vex robot has turned (consider waiting a max amount of secs)
+            while ser.readlines() == None:
+                time.sleep(0.1)
             break
         except:
             success = False
+        num_of_tries = num_of_tries + 1
 
 picam2 = Picamera2()
 picam2.start()
