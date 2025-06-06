@@ -1,4 +1,4 @@
-#from picamera2 import Picamera2
+from picamera2 import Picamera2
 import sys
 import serial
 import time
@@ -17,29 +17,31 @@ def command_sender(*args):
             # print(d, a)
             ser.write(f'{cmd}\n'.encode('ascii'))
             start = time.time_ns()
-            """wait for cmd+ DONE at most 5 seconds"""
-            response = f"{cmd} DONE"            
+            """wait for cmd DONE at most 5 seconds"""
+            response = f"{cmd} DONE"
             while time.time_ns()-start < 15000000001:
-                received_response=ser.readline()
-                if received_response==response:
+                received_response = ser.readline()
+                if received_response == response:
                     break
-            print(time.time_ns()-start)
+                else:
+                    print(f'received_response: {received_response}')
+            print(time.time_ns() - start)
             break
         except:
             success = False
         num_of_tries = num_of_tries + 1
 
-#picam2 = Picamera2()
-#picam2.start()
+picam2 = Picamera2()
 ACM = sys.argv[1]
 ser = serial.Serial(ACM,timeout=1)  # open serial port; port name may change if you disconnect
-#picam2.stop()
-#config = picam2.create_still_configuration(main={"size": (4608, 2592)})
-#picam2.configure(config)
+config = picam2.create_still_configuration(main={"size": (4608, 2592)})
+picam2.configure(config)
+picam2.start()
 for p in range(12):
     command_sender('t', 30)
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     filename = f"/home/wonwong/Projects/data/{timestamp}.jpg"
-    #picam2.capture_file(filename)
+    picam2.capture_file(filename)
     print(p)
 print("done")
+picam2.stop()
