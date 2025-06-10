@@ -22,7 +22,7 @@ while True:
 
     # Visualize the results on the frame
     annotated_frame = results[0].plot()
-    #print(results[0].tojson())
+    # print(results[0].tojson())
     # Display the resulting frame
     cv2.imshow("Camera", annotated_frame)
 
