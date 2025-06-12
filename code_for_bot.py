@@ -19,9 +19,10 @@ def command_sender(*args):
             start = time.time_ns()
             """wait for cmd DONE at most 5 seconds"""
             response = f"{cmd} DONE"
-            while time.time_ns()-start < 15000000001:
+            while time.time_ns() - start < 15000000001:
                 received_response = ser.readline()
-                if received_response == response:
+                if received_response[0] == response:
+                    rotation = received_response[1]
                     break
                 else:
                     print(f'received_response: {received_response}')
@@ -31,6 +32,7 @@ def command_sender(*args):
             success = False
         num_of_tries = num_of_tries + 1
 
+global rotation
 picam2 = Picamera2()
 ACM = sys.argv[1]
 ser = serial.Serial(ACM,timeout=1)  # open serial port; port name may change if you disconnect
@@ -39,8 +41,7 @@ picam2.configure(config)
 picam2.start()
 for p in range(12):
     command_sender('t', 30)
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    filename = f"/home/wonwong/Projects/data/{timestamp}.jpg"
+    filename = f"/home/wonwong/Projects/data/{rotation}.jpg"
     picam2.capture_file(filename)
     print(p)
 print("done")

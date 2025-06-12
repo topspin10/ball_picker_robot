@@ -25,6 +25,7 @@ while True:
         box_num = box_num + 1
     # Display the resulting frame
     cv2.imshow("Camera", annotated_frame)
+    print(max_area)
 
     # Break the loop if 'q' is pressed
     if cv2.waitKey(1) == ord("q"):
