@@ -22,6 +22,7 @@ while True:
         area = abs(box[0] - box[2]) * abs(box[1] - box[3])
         if max_area < area:
             max_area = area
+            max_box_num = box_num
         box_num = box_num + 1
     # Display the resulting frame
     cv2.imshow("Camera", annotated_frame)
