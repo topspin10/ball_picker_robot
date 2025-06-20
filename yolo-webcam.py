@@ -5,7 +5,7 @@ from ultralytics import YOLO
 cap = cv2.VideoCapture(0)
 # link to YOLO documentation: https://docs.ultralytics.com/reference/cfg/__init__/#ultralytics.cfg.check_cfg
 # Load the YOLO11 model montagem tomada
-model = YOLO("/Users/brothers/Downloads/yolo11n.pt") # REMEMBER: change file path depending on device
+model = YOLO("/home/wonwong/Downloads/yolo11n.pt") # REMEMBER: change file path depending on device
 
 while True:
     # Capture frame-by-frame as fast as it can
