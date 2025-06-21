@@ -5,7 +5,7 @@ import time
 from datetime import datetime
 from ultralytics import YOLO
 # "model" is the what i'm going to run on the pictures i take.
-model = YOLO("C:\\Users\\unfin\\Downloads\\yolo11n.pt")
+model = YOLO("/home/wonwong/Downloads/yolo11n.pt") # REMEMBER: change file path depending on device
 # "results" is the list of images that have been run through YOLO
 results = []
 '''
@@ -66,14 +66,18 @@ box_num = 0
 pic_num = 1
 max_box_num = 0
 max_pic_num = 0
+good_box_num = 0
 for n in range(12):
-    for i in results[n].boxes:
-        box = i.xyxy.numpy()[0]
-        area = abs(box[0] - box[2]) * abs(box[1] - box[3])
-        if max_area < area:
-            max_area = area
-            max_box_num = box_num
-            max_pic_num = pic_num
+    for i in results[n][0].boxes:
+        if i.cls == 32:
+            if i.conf > .5:
+                box = i.xyxy.numpy()[0]
+                area = abs(box[0] - box[2]) * abs(box[1] - box[3])
+                if max_area < area:
+                    max_area = area
+                    max_box_num = box_num
+                    max_pic_num = pic_num
+                good_box_num = good_box_num + 1
         box_num = box_num + 1
     pic_num = pic_num + 1
-print(max_area, max_box_num, max_pic_num)
+print(max_area, max_box_num, max_pic_num, good_box_num)
