@@ -31,7 +31,7 @@ while True:
 
     # Run YOLO11 inference on the frame
     # TODO: uncomment lines 29 and 30. replace the stuff in model with the path to filename 
-    results = model([f"/home/wonwong/Projects/ball_picker_robot/pictures/IMG_6442.png"])
+    results = model([f"/home/wonwong/Projects/ball_picker_robot/{filename}"])
 
     # Visualize the results on the frame
     annotated_frame = results[0].plot()
@@ -48,12 +48,12 @@ while True:
                 area = abs(box[0] - box[2]) * abs(box[1] - box[3])
                 if max_area < area:
                     max_area = area
-                    max_box_num = box_num
+                    max_box_num = box_num + 1
                 good_box_num = good_box_num + 1
         box_num = box_num + 1
     # Display the resulting frame
     cv2.imshow("Camera", annotated_frame)
-    print(max_area, max_box_num, box_num)
+    print(max_area, max_box_num, box_num, good_box_num)
 
     # Break the loop if 'q' is pressed
     if cv2.waitKey(1) == ord("q"):
