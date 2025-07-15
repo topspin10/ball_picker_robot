@@ -8,8 +8,9 @@ from ultralytics import YOLO
 model = YOLO("/home/wonwong/Downloads/yolo11n.pt") # REMEMBER: change file path depending on device
 # "results" is the list of images that have been run through YOLO
 results = []
+#TODO specify what num is
 '''
-input: command ('t, num' or 'm, num, num')
+input: command ('t, num', 'at, num', or 'm, num, num')
 output: nothing
 '''
 
@@ -49,11 +50,11 @@ ser = serial.Serial(ACM,timeout=1)  # open serial port; port name may change if 
 config = picam2.create_still_configuration(main={"size": (4608, 2592)})
 picam2.configure(config)
 picam2.start()
-for p in range(12):
+for p in range(12):#introduce a variable for 12
     # t = turn ; m = move
-    command_sender('t', 30)
+    command_sender('t', 30)#replace with computation (30)
     # rotation is in DEGREES
-    filename = f"/home/wonwong/Projects/data/{rotation}.jpg"
+    filename = f"/home/wonwong/Projects/data/{rotation}.jpg"#do you need to save it
     pic = picam2.capture_file(filename)
     # Run YOLO11 inference on the frame
     results.append(model(pic))
@@ -69,15 +70,16 @@ max_pic_num = 0
 good_box_num = 0
 for n in range(12):
     for i in results[n][0].boxes:
-        if i.cls == 32:
-            if i.conf > .5:
-                box = i.xyxy.numpy()[0]
+        if i.cls == 32:#repalce 32 with an enumeration BALL=32
+            if i.conf > .5:#also this should become a parameter
+                box = i.xyxy.numpy()[0]#insert links to the documentation that explains the format of i.xyxy
                 area = abs(box[0] - box[2]) * abs(box[1] - box[3])
                 if max_area < area:
                     max_area = area
-                    max_box_num = box_num
-                    max_pic_num = pic_num
+                    max_box_num = box_num#probably not needed
+                    max_pic_num = pic_num#pic_num should be n
                 good_box_num = good_box_num + 1
         box_num = box_num + 1
     pic_num = pic_num + 1
 print(max_area, max_box_num, max_pic_num, good_box_num)
+command_sender('t', max_pic_num * 30)#should use the gyro (didn't we talk about getting the gyro info back from the hub), think about an absolute reference to avoid accumulating errors
