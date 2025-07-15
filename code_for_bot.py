@@ -8,9 +8,10 @@ from ultralytics import YOLO
 model = YOLO("/home/wonwong/Downloads/yolo11n.pt") # REMEMBER: change file path depending on device
 # "results" is the list of images that have been run through YOLO
 results = []
+num = 12
 #TODO specify what num is
 '''
-input: command ('t, num', 'at, num', or 'm, num, num')
+input: command ('t, num: direction', 'at, num: angle, num: number of times', or 'm, num: speed, num: direction')
 output: nothing
 '''
 
@@ -50,9 +51,11 @@ ser = serial.Serial(ACM,timeout=1)  # open serial port; port name may change if 
 config = picam2.create_still_configuration(main={"size": (4608, 2592)})
 picam2.configure(config)
 picam2.start()
-for p in range(12):#introduce a variable for 12
+max_area = 0
+max_pic_num = 0
+for p in range(num):
     # t = turn ; m = move
-    command_sender('t', 30)#replace with computation (30)
+    command_sender('at', 360/num, p)
     # rotation is in DEGREES
     filename = f"/home/wonwong/Projects/data/{rotation}.jpg"#do you need to save it
     pic = picam2.capture_file(filename)
@@ -61,14 +64,7 @@ for p in range(12):#introduce a variable for 12
     print(p)
 print("done")
 picam2.stop()
-
-max_area = 0
-box_num = 0
-pic_num = 1
-max_box_num = 0
-max_pic_num = 0
-good_box_num = 0
-for n in range(12):
+for n in range(num):
     for i in results[n][0].boxes:
         if i.cls == 32:#repalce 32 with an enumeration BALL=32
             if i.conf > .5:#also this should become a parameter
@@ -76,10 +72,7 @@ for n in range(12):
                 area = abs(box[0] - box[2]) * abs(box[1] - box[3])
                 if max_area < area:
                     max_area = area
-                    max_box_num = box_num#probably not needed
-                    max_pic_num = pic_num#pic_num should be n
-                good_box_num = good_box_num + 1
-        box_num = box_num + 1
+                    max_pic_num = n
     pic_num = pic_num + 1
-print(max_area, max_box_num, max_pic_num, good_box_num)
+print(max_area, max_pic_num)
 command_sender('t', max_pic_num * 30)#should use the gyro (didn't we talk about getting the gyro info back from the hub), think about an absolute reference to avoid accumulating errors
