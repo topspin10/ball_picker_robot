@@ -1,4 +1,5 @@
 #addcomments for most lines and write the startup procedure.
+# having trouble with ROTATION. I think it's solved but have to test
 from picamera2 import Picamera2
 import sys
 import serial
