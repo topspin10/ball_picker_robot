@@ -1,3 +1,4 @@
+#addcomments for most lines and write the startup procedure.
 from picamera2 import Picamera2
 import sys
 import serial
@@ -9,6 +10,7 @@ model = YOLO("/home/wonwong/Downloads/yolo11n.pt") # REMEMBER: change file path 
 # "results" is the list of images that have been run through YOLO
 results = []
 num = 12
+rotation = 0
 #TODO specify what num is
 '''
 input: command ('t, num: direction', 'at, num: angle, num: number of times', or 'm, num: speed, num: direction')
@@ -33,8 +35,8 @@ def command_sender(*args):
             while time.time_ns() - start < 15000000001:
                 received_response = ser.readline()
                 if received_response[0] == response:
-                    global rotation 
                     rotation = received_response[1]
+                    print(rotation)
                     break
                 else:
                     print(f'received_response: {received_response}')
@@ -43,6 +45,7 @@ def command_sender(*args):
         except:
             success = False
         num_of_tries = num_of_tries + 1
+    return rotation
 
 picam2 = Picamera2()
 ACM = sys.argv[1]
@@ -62,17 +65,16 @@ for p in range(num):
     # Run YOLO11 inference on the frame
     results.append(model(pic))
     print(p)
-print("done")
-picam2.stop()
-for n in range(num):
-    for i in results[n][0].boxes:
+    for i in results[p][0].boxes:
         if i.cls == 32:#repalce 32 with an enumeration BALL=32
             if i.conf > .5:#also this should become a parameter
                 box = i.xyxy.numpy()[0]#insert links to the documentation that explains the format of i.xyxy
                 area = abs(box[0] - box[2]) * abs(box[1] - box[3])
                 if max_area < area:
                     max_area = area
-                    max_pic_num = n
+                    max_pic_num = p
     pic_num = pic_num + 1
+print("done")
+picam2.stop()
 print(max_area, max_pic_num)
 command_sender('t', max_pic_num * 30)#should use the gyro (didn't we talk about getting the gyro info back from the hub), think about an absolute reference to avoid accumulating errors
